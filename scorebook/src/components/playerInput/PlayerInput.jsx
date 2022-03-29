@@ -1,11 +1,11 @@
 import React from 'react';
 
 const PlayerInput = (props) => {
-    const { onChange, onBlur } = props;
+    const { value, onChange, onBlur } = props;
 
     return (
         <>
-            <input type='text' onChange={onChange} onBlur={onBlur} />
+            <input type='text' value={value} onChange={onChange} onBlur={onBlur} autoFocus={true} />
         </>
     );
 };

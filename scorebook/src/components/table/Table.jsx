@@ -1,33 +1,51 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../../assets/css/styles.module.css';
-import Column from '../column/Column';
 import Row from '../row/Row';
 import PlayerInput from '../playerInput/PlayerInput';
+import ScoreInput from '../scoreInput/ScoreInput';
 
 const Table = () => {
     const maxPlayers = 7;
     const [playersCount, setPlayersCount] = useState(0);
-    // const [players, setPlayers] = useState([]);
-    const [rows, setRows] = useState([]);
+    const [players, setPlayers] = useState([]);
+
+    // Row Inputs
+    const [playersRow, setPlayerRow] = useState([]);
+    const [wondersRow, setWonderRow] = useState([]);
+    const [coinsRow, setCoinsRow] = useState([]);
+
+    // Row Values
+    const [wondervalues, setWonderValues] = useState([]);
+    const [coinValues, setCoinValues] = useState([]);
 
     const addPlayer = (player) => {
         console.log(player.target.value);
         // setPlayers(players.concat(player));
     };
 
-    const handleOnBlur = () => {
+    const handleOnBlur = (player) => {
+        console.log(player.target.value);
         console.log('on blur done');
+        setPlayers(players.concat(player.target.value));
     };
 
     const handleClick = () => {
         setPlayersCount(playersCount + 1);
-        if (playersCount <= maxPlayers - 1) setRows(rows.concat(<PlayerInput onChange={addPlayer} onBlur={handleOnBlur} />));
+        if (playersCount <= maxPlayers - 1) {
+            setPlayerRow(playersRow.concat(<PlayerInput onChange={addPlayer} onBlur={handleOnBlur} />));
+            setWonderRow(wondersRow.concat(<ScoreInput />));
+            setCoinsRow(coinsRow.concat(<ScoreInput />));
+        }
     };
 
+    useEffect(() => {
+        console.log('players: ', players);
+    }, [players]);
+
     return (
-        <div className={styles.gridContainer}>
-            <div>{/* <input type='text' name='player' value={player} id='' onChange={(e) => addPlayer(e.target.value)} onBlur={handleOnBlur} /> */}</div>
-            <Row rows={rows} />
+        <div className='scorebook'>
+            <Row rows={playersRow} />
+            <Row rows={wondersRow} />
+            <Row rows={coinsRow} />
             <div>
                 <button onClick={handleClick}>Add new player</button>
             </div>
