@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ScoreRow = (props) => {
-    const { scoreValues, index, playersCount } = props;
+    const { scoreValues, index, players } = props;
 
     const rowStyles = {
         display: 'grid',
@@ -18,15 +18,9 @@ const ScoreRow = (props) => {
         textAlign: 'center',
     };
 
-    // const score = scoreValues[index];
-    console.log('score values from score row');
-    console.log('scorevalues; ', scoreValues);
-    console.log('index: ', index);
-    console.log('playerscount: ', playersCount);
-
     return (
         <div className='scorebook__row' style={rowStyles}>
-            {[...Array(playersCount).keys()].map((item, idx) => {
+            {players.map((item, idx) => {
                 return (
                     <div
                         data-position={index}
@@ -34,6 +28,7 @@ const ScoreRow = (props) => {
                         className='scorebook__column'
                         style={columnStyles}
                     >
+                        {/* {players[idx]}: {scoreValues[idx]} */}
                         {scoreValues[idx]}
                     </div>
                 );

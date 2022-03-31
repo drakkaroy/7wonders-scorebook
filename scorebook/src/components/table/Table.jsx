@@ -80,10 +80,9 @@ const Table = () => {
         }
     };
 
-    const handleBlurNewPlayer = (player) => {
-        // console.log(player.target.value);
-        // console.log('on blur done');
-        setPlayers(players.concat(player.target.value));
+    const handleBlurNewPlayer = (event) => {
+        const newPlayer = event.target.value;
+        setPlayers((prev) => [...prev, newPlayer]);
     };
 
     const handleBlurWonderInput = (event) => {
@@ -128,7 +127,7 @@ const Table = () => {
     }, [pointer]);
 
     useEffect(() => {
-        // console.log('players: ', players);
+        console.log('players: ', players);
     }, [players]);
 
     useEffect(() => {
@@ -158,7 +157,7 @@ const Table = () => {
                 <ScoreRow
                     scoreValues={scoreValues}
                     index={index}
-                    playersCount={playersCount}
+                    players={players}
                 />
             )}
             <div>
