@@ -1,11 +1,17 @@
 import React from 'react';
 
 const ScoreInput = (props) => {
-    const { value, onChange, onBlur } = props;
+    const { value, onChange, onBlur, index } = props;
 
     return (
         <>
-            <input type='number' value={value} onChange={onChange} onBlur={onBlur} />
+            <input
+                type='number'
+                // value={10}
+                onChange={onChange}
+                onBlur={onBlur}
+                data-position={index}
+            />
         </>
     );
 };
