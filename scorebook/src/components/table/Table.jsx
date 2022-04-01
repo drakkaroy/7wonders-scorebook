@@ -3,6 +3,7 @@ import Row from '../row/Row';
 import PlayerInput from '../playerInput/PlayerInput';
 import ScoreInput from '../scoreInput/ScoreInput';
 import ScoreRow from '../scoreRow/ScoreRow';
+import PlayersRow from '../playersRow/PlayersRow';
 
 const Table = () => {
     const maxPlayers = 7;
@@ -12,7 +13,7 @@ const Table = () => {
     const [pointer, setPointer] = useState(null);
 
     // Row Inputs
-    const [playersRow, setPlayerRow] = useState([]);
+    // const [playersRow, setPlayerRow] = useState([]);
     const [wondersRow, setWondersRow] = useState([]);
     const [coinsRow, setCoinsRow] = useState([]);
 
@@ -35,16 +36,17 @@ const Table = () => {
 
     const addValues = () => {
         // Fill array values with 0 each new player
+        setPlayers((players) => [...players, '']);
         setWonderValues((wonderValues) => [...wonderValues, 0]);
         setCoinValues((coinValues) => [...coinValues, 0]);
         setScoreValues((scoreValues) => [...scoreValues, 0]);
     };
 
     const addRows = () => {
-        setPlayerRow((playersRow) => [
-            ...playersRow,
-            <PlayerInput onChange={addPlayer} onBlur={handleBlurNewPlayer} />,
-        ]);
+        // setPlayerRow((playersRow) => [
+        //     ...playersRow,
+        //     <PlayerInput onChange={addPlayer} onBlur={handleBlurNewPlayer} />,
+        // ]);
         setWondersRow((wondersRow) => [
             ...wondersRow,
             <ScoreInput onBlur={handleBlurWonderInput} index={index} />,
@@ -80,9 +82,20 @@ const Table = () => {
         }
     };
 
+    const handleChangeNewPlayer = (event) => {
+        // console.log(event.target.value);
+    };
+
     const handleBlurNewPlayer = (event) => {
         const newPlayer = event.target.value;
-        setPlayers((prev) => [...prev, newPlayer]);
+        const indexAttribute = event.target.attributes['data-position'].value;
+        if (newPlayer !== '') {
+            setPlayers((players) => {
+                return players.map((item, index) =>
+                    index === parseInt(indexAttribute) ? newPlayer : item
+                );
+            });
+        }
     };
 
     const handleBlurWonderInput = (event) => {
@@ -150,15 +163,16 @@ const Table = () => {
 
     return (
         <div className='scorebook'>
-            <Row rows={playersRow} />
+            <PlayersRow
+                players={players}
+                onChange={handleChangeNewPlayer}
+                onBlur={handleBlurNewPlayer}
+            />
+            {/* <Row rows={playersRow} /> */}
             <Row rows={wondersRow} />
             <Row rows={coinsRow} />
             {index >= 0 && scoreValues.length > 0 && (
-                <ScoreRow
-                    scoreValues={scoreValues}
-                    index={index}
-                    players={players}
-                />
+                <ScoreRow scoreValues={scoreValues} players={players} />
             )}
             <div>
                 <button onClick={handleClickNewPlayer}>Add new player</button>

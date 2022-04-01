@@ -1,7 +1,7 @@
 import React from 'react';
 
-const ScoreRow = (props) => {
-    const { scoreValues, players } = props;
+const PlayersRow = (props) => {
+    const { players, onChange, onBlur } = props;
 
     const rowStyles = {
         display: 'grid',
@@ -23,13 +23,19 @@ const ScoreRow = (props) => {
             {players.map((item, idx) => {
                 return (
                     <div
-                        data-position={idx}
                         key={idx}
                         className='scorebook__column'
                         style={columnStyles}
                     >
-                        {/* {players[idx]}: {scoreValues[idx]} */}
-                        {scoreValues[idx]}
+                        {/* {players[idx]} */}
+                        <input
+                            data-position={idx}
+                            type='text'
+                            onChange={onChange}
+                            onBlur={onBlur}
+                            placeholder={`player ${idx + 1}`}
+                            autoFocus={true}
+                        />
                     </div>
                 );
             })}
@@ -37,4 +43,4 @@ const ScoreRow = (props) => {
     );
 };
 
-export default ScoreRow;
+export default PlayersRow;
