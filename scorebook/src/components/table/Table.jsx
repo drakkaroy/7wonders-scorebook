@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Row from '../row/Row';
-import PlayerInput from '../playerInput/PlayerInput';
-import ScoreInput from '../scoreInput/ScoreInput';
-import ScoreRow from '../scoreRow/ScoreRow';
 import PlayersRow from '../playersRow/PlayersRow';
+import Input from '../input/Input';
 
 const Table = () => {
     const maxPlayers = 7;
@@ -13,7 +11,6 @@ const Table = () => {
     const [pointer, setPointer] = useState(null);
 
     // Row Inputs
-    // const [playersRow, setPlayerRow] = useState([]);
     const [wondersRow, setWondersRow] = useState([]);
     const [coinsRow, setCoinsRow] = useState([]);
 
@@ -21,11 +18,6 @@ const Table = () => {
     const [wonderValues, setWonderValues] = useState([]);
     const [coinValues, setCoinValues] = useState([]);
     const [scoreValues, setScoreValues] = useState([]);
-
-    const addPlayer = (player) => {
-        // console.log(player.target.value);
-        // setPlayers(players.concat(player));
-    };
 
     const getColumnValues = (index) => {
         const column = [];
@@ -43,17 +35,23 @@ const Table = () => {
     };
 
     const addRows = () => {
-        // setPlayerRow((playersRow) => [
-        //     ...playersRow,
-        //     <PlayerInput onChange={addPlayer} onBlur={handleBlurNewPlayer} />,
-        // ]);
         setWondersRow((wondersRow) => [
             ...wondersRow,
-            <ScoreInput onBlur={handleBlurWonderInput} index={index} />,
+            <Input 
+                type='number' 
+                onBlur={handleBlurWonderInput} 
+                index={index} 
+                classes='scorebook__input'
+            />,
         ]);
         setCoinsRow((coinsRow) => [
             ...coinsRow,
-            <ScoreInput onBlur={handleBlurCoinInput} index={index} />,
+            <Input 
+                type='number' 
+                onBlur={handleBlurCoinInput} 
+                index={index} 
+                classes='scorebook__input'
+            />,
         ]);
     };
 
@@ -162,17 +160,16 @@ const Table = () => {
     }, [scoreValues]);
 
     return (
-        <div className='scorebook'>
+        <div className={`scorebook__table cols-${playersCount}`}>
             <PlayersRow
                 players={players}
                 onChange={handleChangeNewPlayer}
                 onBlur={handleBlurNewPlayer}
             />
-            {/* <Row rows={playersRow} /> */}
-            <Row rows={wondersRow} />
-            <Row rows={coinsRow} />
+            <Row columns={wondersRow} />
+            <Row columns={coinsRow} />
             {index >= 0 && scoreValues.length > 0 && (
-                <ScoreRow scoreValues={scoreValues} players={players} />
+                <Row columns={scoreValues} />
             )}
             <div>
                 <button onClick={handleClickNewPlayer}>Add new player</button>
