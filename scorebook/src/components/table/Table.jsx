@@ -13,16 +13,32 @@ const Table = () => {
     // Row Inputs
     const [wondersRow, setWondersRow] = useState([]);
     const [coinsRow, setCoinsRow] = useState([]);
+    const [warsRow, setWarsRow] = useState([]);
+    const [civilsRow, setCivilsRow] = useState([]);
+    const [tradesRow, setTradesRow] = useState([]);
+    const [sciencesRow, setSciencesRow] = useState([]);
+    const [guildsRow, setGuildsRow] = useState([]);
 
     // Row Values
     const [wonderValues, setWonderValues] = useState([]);
     const [coinValues, setCoinValues] = useState([]);
+    const [warValues, setWarValues] = useState([]);
+    const [civilValues, setCivilValues] = useState([]);
+    const [tradeValues, setTradeValues] = useState([]);
+    const [scienceValues, setScienceValues] = useState([]);
+    const [guildValues, setGuildValues] = useState([]);
     const [scoreValues, setScoreValues] = useState([]);
+    
 
     const getColumnValues = (index) => {
         const column = [];
         column.push(wonderValues[index]);
         column.push(coinValues[index]);
+        column.push(warValues[index]);
+        column.push(civilValues[index]);
+        column.push(tradeValues[index]);
+        column.push(scienceValues[index]);
+        column.push(guildValues[index]);
         return column;
     };
 
@@ -31,6 +47,11 @@ const Table = () => {
         setPlayers((players) => [...players, '']);
         setWonderValues((wonderValues) => [...wonderValues, 0]);
         setCoinValues((coinValues) => [...coinValues, 0]);
+        setWarValues((warValues) => [...warValues, 0]);
+        setCivilValues((prev) => [...prev, 0]);
+        setTradeValues((prev) => [...prev, 0]);
+        setScienceValues((prev) => [...prev, 0]);
+        setGuildValues((prev) => [...prev, 0]);
         setScoreValues((scoreValues) => [...scoreValues, 0]);
     };
 
@@ -41,7 +62,7 @@ const Table = () => {
                 type='number' 
                 onBlur={handleBlurWonderInput} 
                 index={index} 
-                classes='scorebook__input'
+                classes='scorebook__input bg-gray'
             />,
         ]);
         setCoinsRow((coinsRow) => [
@@ -50,7 +71,52 @@ const Table = () => {
                 type='number' 
                 onBlur={handleBlurCoinInput} 
                 index={index} 
-                classes='scorebook__input'
+                classes='scorebook__input bg-orange'
+            />,
+        ]);
+        setWarsRow((warsRow) => [
+            ...warsRow,
+            <Input 
+                type='number' 
+                onBlur={handleBlurWarInput} 
+                index={index} 
+                classes='scorebook__input bg-red'
+            />,
+        ]);
+        setCivilsRow((prev) => [
+            ...prev,
+            <Input 
+                type='number' 
+                onBlur={handleBlurCivilInput} 
+                index={index} 
+                classes='scorebook__input bg-blue'
+            />,
+        ]);
+        setTradesRow((prev) => [
+            ...prev,
+            <Input 
+                type='number' 
+                onBlur={handleBlurTradeInput} 
+                index={index} 
+                classes='scorebook__input bg-orange'
+            />,
+        ]);
+        setSciencesRow((prev) => [
+            ...prev,
+            <Input 
+                type='number' 
+                onBlur={handleBlurScienceInput} 
+                index={index} 
+                classes='scorebook__input bg-green'
+            />,
+        ]);
+        setGuildsRow((prev) => [
+            ...prev,
+            <Input 
+                type='number' 
+                onBlur={handleBlurGuildInput} 
+                index={index} 
+                classes='scorebook__input bg-gray'
             />,
         ]);
     };
@@ -124,6 +190,76 @@ const Table = () => {
         setPointer(coinPointer);
     };
 
+    const handleBlurWarInput = (event) => {
+        const indexAttribute = event.target.attributes['data-position'].value;
+        const warPointer = 10 * indexAttribute + 3;
+        const value = event.target.value !== '' ? event.target.value : 0;
+
+        setWarValues((warValues) => {
+            return warValues.map((item, index) =>
+                index === parseInt(indexAttribute) ? parseInt(value) : item
+            );
+        });
+
+        setPointer(warPointer);
+    };
+
+    const handleBlurCivilInput = (event) => {
+        const indexAttribute = event.target.attributes['data-position'].value;
+        const pointer = 10 * indexAttribute + 4;
+        const value = event.target.value !== '' ? event.target.value : 0;
+
+        setCivilValues((prev) => {
+            return prev.map((item, index) =>
+                index === parseInt(indexAttribute) ? parseInt(value) : item
+            );
+        });
+
+        setPointer(pointer);
+    };
+
+    const handleBlurTradeInput = (event) => {
+        const indexAttribute = event.target.attributes['data-position'].value;
+        const pointer = 10 * indexAttribute + 5;
+        const value = event.target.value !== '' ? event.target.value : 0;
+
+        setTradeValues((prev) => {
+            return prev.map((item, index) =>
+                index === parseInt(indexAttribute) ? parseInt(value) : item
+            );
+        });
+
+        setPointer(pointer);
+    };
+
+    const handleBlurScienceInput = (event) => {
+        const indexAttribute = event.target.attributes['data-position'].value;
+        const pointer = 10 * indexAttribute + 6;
+        const value = event.target.value !== '' ? event.target.value : 0;
+
+        setScienceValues((prev) => {
+            return prev.map((item, index) =>
+                index === parseInt(indexAttribute) ? parseInt(value) : item
+            );
+        });
+
+        setPointer(pointer);
+    };
+
+    const handleBlurGuildInput = (event) => {
+        const indexAttribute = event.target.attributes['data-position'].value;
+        const pointer = 10 * indexAttribute + 7;
+        const value = event.target.value !== '' ? event.target.value : 0;
+
+        setGuildValues((prev) => {
+            return prev.map((item, index) =>
+                index === parseInt(indexAttribute) ? parseInt(value) : item
+            );
+        });
+
+        setPointer(pointer);
+    };
+
     useEffect(() => {
         if (index >= 0 && index <= maxPlayers) {
             addRows();
@@ -168,6 +304,11 @@ const Table = () => {
             />
             <Row columns={wondersRow} />
             <Row columns={coinsRow} />
+            <Row columns={warsRow} />
+            <Row columns={civilsRow} />
+            <Row columns={tradesRow} />
+            <Row columns={sciencesRow} />
+            <Row columns={guildsRow} />
             {index >= 0 && scoreValues.length > 0 && (
                 <Row columns={scoreValues} />
             )}

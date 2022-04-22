@@ -14,7 +14,7 @@ const PlayersRow = (props) => {
                     index={idx}
                     onChange={onChange}
                     onBlur={onBlur}
-                    placeholder={`player ${idx + 1}`}
+                    placeholder={`ply ${idx + 1}`}
                     autoFocus={true}
                     classes='scorebook__player-input'
                 />
