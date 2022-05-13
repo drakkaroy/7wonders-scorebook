@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Row = (props) => {
-    const { columns = [] } = props;
+    const { columns = [], label } = props;
 
     return (
         <div className='scorebook__row'>
-            <div>label</div>
+            <div className='scorebook__row-label'>{label}</div>
             {columns.map((item, idx) => {
                 return (
                     <div className={`scorebook__col scorebook__col--${columns.length}`} key={idx}>
