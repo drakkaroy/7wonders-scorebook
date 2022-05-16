@@ -303,7 +303,7 @@ const Table = () => {
 
     useEffect(() => {
         // Add rows and values each new player
-        if (playersCount >= 1 && playersCount < maxPlayers && playersCount !== minPlayers) {
+        if (playersCount >= 1 && playersCount <= maxPlayers && playersCount !== minPlayers) {
             addRows();
             addValues();
         }
@@ -333,8 +333,8 @@ const Table = () => {
             {playersCount > 0 && scoreValues.length > 0 && (
                 <Row columns={scoreValues}  label='Score'/>
             )}
-            <div>
-                <button onClick={handleClickNewPlayer}>Add new player</button>
+            <div className='scorebook__button-container'>
+                <button onClick={handleClickNewPlayer} className='scorebook__button'>Add new player</button>
             </div>
         </div>
     );
