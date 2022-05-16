@@ -6,11 +6,10 @@ import Input from '../input/Input';
 const Table = () => {
     const maxPlayers = 7;
     const minPlayers = 3;
-    // const initialMatrix = Array.from(Array(minPlayers).fill(0));
     const initialMatrix = [];
-    const [playersCount, setPlayersCount] = useState(0);
+    const [playersCount, setPlayersCount] = useState(minPlayers);
     const [players, setPlayers] = useState([]);
-    // const index = playersCount - 1;
+    
     const [index, setIndex] = useState(playersCount - 1);
     const [pointer, setPointer] = useState(null);
 
@@ -33,20 +32,21 @@ const Table = () => {
     const [guildValues, setGuildValues] = useState(initialMatrix);
     const [scoreValues, setScoreValues] = useState(initialMatrix);
 
-    const getColumnValues = (index) => {
+    const getColumnValues = (columnIndex) => {
+        // Return an Array with values of the column
         const column = [];
-        column.push(wonderValues[index]);
-        column.push(coinValues[index]);
-        column.push(warValues[index]);
-        column.push(civilValues[index]);
-        column.push(tradeValues[index]);
-        column.push(scienceValues[index]);
-        column.push(guildValues[index]);
+        column.push(wonderValues[columnIndex]);
+        column.push(coinValues[columnIndex]);
+        column.push(warValues[columnIndex]);
+        column.push(civilValues[columnIndex]);
+        column.push(tradeValues[columnIndex]);
+        column.push(scienceValues[columnIndex]);
+        column.push(guildValues[columnIndex]);
         return column;
     };
 
     const addValues = () => {
-        // Fill array values with 0 each new player
+        // Update array values with 0 each new player
         setPlayers((prev) => [...prev, '']);
         setWonderValues((prev) => [...prev, 0]);
         setCoinValues((prev) => [...prev, 0]);
@@ -59,6 +59,8 @@ const Table = () => {
     };
 
     const addRows = () => {
+        // Update array values with input field each new player
+        const inputList = setColumnInputs(index);
         setWondersRow((prev) => [...prev, inputList.wonder]);
         setCoinsRow((prev) => [...prev, inputList.coin]);
         setWarsRow((prev) => [...prev, inputList.war]);
@@ -103,8 +105,8 @@ const Table = () => {
         const indexAttribute = event.target.attributes['data-position'].value;
         if (newPlayer !== '') {
             setPlayers((players) => {
-                return players.map((item, index) =>
-                    index === parseInt(indexAttribute) ? newPlayer : item
+                return players.map((item, idx) =>
+                    idx === parseInt(indexAttribute) ? newPlayer : item
                 );
             });
         }
@@ -116,8 +118,8 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setWonderValues((wonderValues) => {
-            return wonderValues.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return wonderValues.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
@@ -130,8 +132,8 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setCoinValues((coinValues) => {
-            return coinValues.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return coinValues.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
@@ -144,8 +146,8 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setWarValues((warValues) => {
-            return warValues.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return warValues.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
@@ -158,8 +160,8 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setCivilValues((prev) => {
-            return prev.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return prev.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
@@ -172,8 +174,8 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setTradeValues((prev) => {
-            return prev.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return prev.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
@@ -186,8 +188,8 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setScienceValues((prev) => {
-            return prev.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return prev.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
@@ -200,115 +202,119 @@ const Table = () => {
         const value = event.target.value !== '' ? event.target.value : 0;
 
         setGuildValues((prev) => {
-            return prev.map((item, index) =>
-                index === parseInt(indexAttribute) ? parseInt(value) : item
+            return prev.map((item, idx) =>
+                idx === parseInt(indexAttribute) ? parseInt(value) : item
             );
         });
 
         setPointer(pointer);
     };
 
-    const inputList = {
-        'index': index,
-        'wonder': <Input 
-            type='number' 
-            onBlur={handleBlurWonderInput} 
-            index={index} 
-            classes='scorebook__input bg-gray'
-        />,
-        'coin': <Input 
-            type='number' 
-            onBlur={handleBlurCoinInput} 
-            index={index} 
-            classes='scorebook__input bg-orange'
-        />,
-        'war': <Input 
-            type='number' 
-            onBlur={handleBlurWarInput} 
-            index={index} 
-            classes='scorebook__input bg-red'
-        />,
-        'civil': <Input 
-            type='number' 
-            onBlur={handleBlurCivilInput} 
-            index={index} 
-            classes='scorebook__input bg-blue'
-        />,
-        'trade': <Input 
-            type='number' 
-            onBlur={handleBlurTradeInput} 
-            index={index} 
-            classes='scorebook__input bg-orange'
-        />,
-        'science': <Input 
-            type='number' 
-            onBlur={handleBlurScienceInput} 
-            index={index} 
-            classes='scorebook__input bg-green'
-        />,
-        'guild': <Input 
-            type='number' 
-            onBlur={handleBlurGuildInput} 
-            index={index} 
-            classes='scorebook__input bg-gray'
-        />
-    }
+    const setColumnInputs = (columnIndex) => {
+        return {
+            'wonder': <Input 
+                type='number' 
+                onBlur={handleBlurWonderInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-gray'
+            />,
+            'coin': <Input 
+                type='number' 
+                onBlur={handleBlurCoinInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-orange'
+            />,
+            'war': <Input 
+                type='number' 
+                onBlur={handleBlurWarInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-red'
+            />,
+            'civil': <Input 
+                type='number' 
+                onBlur={handleBlurCivilInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-blue'
+            />,
+            'trade': <Input 
+                type='number' 
+                onBlur={handleBlurTradeInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-orange'
+            />,
+            'science': <Input 
+                type='number' 
+                onBlur={handleBlurScienceInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-green'
+            />,
+            'guild': <Input 
+                type='number' 
+                onBlur={handleBlurGuildInput} 
+                index={columnIndex} 
+                classes='scorebook__input bg-gray'
+            />
+        }
+    };
 
-    console.log(inputList);
+    const setBookWithMinPlayers = () => {
+        const wondersRow = [];
+        const coinsRow = [];
+        const warsRow = [];
+        const civilsRow = [];
+        const tradesRow = [];
+        const sciencesRow = [];
+        const guildsRow = [];
+
+        for (let index = 0; index < minPlayers; index++) {
+            console.log(index);
+            const inputList = setColumnInputs(index);
+            wondersRow.push(inputList.wonder);
+            coinsRow.push(inputList.coin);
+            warsRow.push(inputList.war);
+            civilsRow.push(inputList.civil);
+            tradesRow.push(inputList.trade);
+            sciencesRow.push(inputList.science);
+            guildsRow.push(inputList.guild);
+        }
+
+        setWondersRow(wondersRow);
+        setCoinsRow(coinsRow);
+        setWarsRow(warsRow);
+        setCivilsRow(civilsRow);
+        setTradesRow(tradesRow);
+        setSciencesRow(sciencesRow);
+        setGuildsRow(guildsRow);
+
+        setPlayers(Array.from(Array(minPlayers).fill('')));
+        setWonderValues(Array.from(Array(minPlayers).fill(0)));
+        setCoinValues(Array.from(Array(minPlayers).fill(0)));
+        setWarValues(Array.from(Array(minPlayers).fill(0)));
+        setCivilValues(Array.from(Array(minPlayers).fill(0)));
+        setTradeValues(Array.from(Array(minPlayers).fill(0)));
+        setScienceValues(Array.from(Array(minPlayers).fill(0)));
+        setGuildValues(Array.from(Array(minPlayers).fill(0)));
+        setScoreValues(Array.from(Array(minPlayers).fill(0)));
+    };
+
     useEffect(() => {
-        // setPlayers(Array.from(Array(minPlayers).fill('')));
-        // setWonderValues(Array.from(Array(minPlayers).fill(0)));
-        // setCoinValues(Array.from(Array(minPlayers).fill(0)));
-        // setWarValues(Array.from(Array(minPlayers).fill(0)));
-        // setCivilValues(Array.from(Array(minPlayers).fill(0)));
-        // setTradeValues(Array.from(Array(minPlayers).fill(0)));
-        // setScienceValues(Array.from(Array(minPlayers).fill(0)));
-        // setGuildValues(Array.from(Array(minPlayers).fill(0)));
-        // setScoreValues(Array.from(Array(minPlayers).fill(0)));
-
-        // setWondersRow(Array.from(Array(minPlayers).fill(inputList.wonder)));
-        // setCoinsRow(Array.from(Array(minPlayers).fill(inputList.coin)));
-        // setWarsRow(Array.from(Array(minPlayers).fill(inputList.war)));
-        // setCivilsRow(Array.from(Array(minPlayers).fill(inputList.civil)));
-        // setTradesRow(Array.from(Array(minPlayers).fill(inputList.trade)));
-        // setSciencesRow(Array.from(Array(minPlayers).fill(inputList.science)));
-        // setGuildsRow(Array.from(Array(minPlayers).fill(inputList.guild)));
+        setBookWithMinPlayers();
     },[]);
 
     useEffect(() => {
-        if (index >= 0 && index <= maxPlayers) {
+        // Add rows and values each new player
+        if (playersCount >= 1 && playersCount < maxPlayers && playersCount !== minPlayers) {
             addRows();
             addValues();
         }
     }, [playersCount]);
 
     useEffect(() => {
+        // Pointer is updated each OnBlur event
         if (pointer) {
             updateScoreValue();
         }
     }, [pointer]);
-
-    useEffect(() => {
-        // console.log('players: ', players);
-    }, [players]);
-
-    useEffect(() => {
-        if (wonderValues.length > 0) {
-            // console.log('wonder values: ', wonderValues);
-        }
-    }, [wonderValues]);
-
-    useEffect(() => {
-        if (coinValues.length > 0) {
-            // console.log('coin values: ', coinValues);
-        }
-    }, [coinValues]);
-
-    useEffect(() => {
-        if (scoreValues.length > 0) {
-            // console.log('score values: ', scoreValues);
-        }
-    }, [scoreValues]);
 
     return (
         <div className={`scorebook__table cols-${playersCount}`}>
@@ -324,7 +330,7 @@ const Table = () => {
             <Row columns={tradesRow} label='Trade' />
             <Row columns={sciencesRow} label='Science' />
             <Row columns={guildsRow} label='Guild' />
-            {index >= 0 && scoreValues.length > 0 && (
+            {playersCount > 0 && scoreValues.length > 0 && (
                 <Row columns={scoreValues}  label='Score'/>
             )}
             <div>
